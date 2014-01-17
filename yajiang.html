@@ -1,0 +1,126 @@
+<!doctype html>
+<html>
+<head>
+	<style>
+	#lot_main ul,#lot_main li{
+		margin:0;
+		padding:0;
+	}
+	#lot_main ul{
+		float: left;
+		width:50px;
+		height:150px;		
+		overflow: hidden;
+		border:1px #000 solid;
+	}
+	#lot_main li{
+		height:50px;
+		line-height: 50px;
+		width:50px;
+		display: block;
+		text-align: center;
+	}
+	</style>
+</head>
+<body>
+	<div id="lot_main">
+		<ul>
+			<li>0</li>
+			<li>1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+			<li>5</li>
+			<li>6</li>
+			<li>7</li>
+			<li>8</li>
+			<li>9</li>			
+		</ul>
+		<ul>
+			<li>0</li>
+			<li>1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+			<li>5</li>
+			<li>6</li>
+			<li>7</li>
+			<li>8</li>
+			<li>9</li>
+		</ul>
+		<ul>
+			<li>0</li>
+			<li>1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+			<li>5</li>
+			<li>6</li>
+			<li>7</li>
+			<li>8</li>
+			<li>9</li>
+		</ul>
+	</div>
+	<div id="lot_btns">
+		<input type="button" value="Begin"></button>
+	</div>
+<script>
+var timeout = 10;
+
+function initiation(obj_id){
+	var obj= document.getElementById(obj_id);
+	var groups = obj.getElementsByTagName('ul');
+	for (var i=0;i<groups.length; i++){
+		var chlist = groups[i].getElementsByTagName('li');
+		for (var j=0;j<chlist.length;j++){
+			chlist[j].className = 'prize_'+j;
+		}
+	}
+}
+function check_after(v){
+
+}
+function check_before(v){
+	
+}
+function _begin_scroll(v,speed){
+	check_before(v);
+	var chlist = v.getElementsByTagName('li');
+	var el = chlist[0];
+	var cur_pt = parseInt(el.style.marginTop.replace('px',''));
+	var cell_h = el.offsetHeight;
+	var st = speed*timeout;
+	if (cur_pt > cell_h-1 && cur_pt<=cell_h+st){
+		el.style.marginTop = 0;
+		var clo = v.lastChild.clone(1);
+		v.removeChild(chlist[chlist.length-1])
+		v.insertBefore(clo);
+		v.setAttribute('stat',0);
+	}else{
+		el.style.marginTop = cur_pt+st+'px';
+		v.setAttribute('stat',1);
+	}
+	check_after(v);
+}
+function _stop_scroll(v,speed,no){
+	var current_no = parseInt(v.className.replace('prize_','') );
+	var circle_sum = v.childNodes.length+no;
+	if (circle_sum ==0){
+		circle_sum = v.childNodes.length;
+	}
+	var speed_arr = [];
+	for(var i=0; i<circle_sum-1;i++){
+		var tmp_sp  = Math.cos(i/(circle_sum*Math.PI/4)) * speed;
+		speed_arr[i] = speed>0 ? speed : speed_arr[i-1];
+	}
+}
+function stop_in_speeds(v,speed_arr){
+
+}
+initiation('lot_main');
+var v = document.getElementById('lot_main').getElementsByTagName('ul')[0], speed = 10;
+setInterval(function(){
+	_begin_scroll(v,speed);
+},timeout);
+</script>
+</body>
